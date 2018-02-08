@@ -3,6 +3,7 @@ import Preload from 'states/Preload';
 import GameTitle from 'states/GameTitle';
 import Main from 'states/Main';
 import GameOver from 'states/GameOver';
+import Phaser from 'phaser'
 
 class Game extends Phaser.Game {
 

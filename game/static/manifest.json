@@ -1,6 +1,6 @@
 {
-  "name": "Your Game",
-  "short_name": "Your Game",
+  "name": "hammer",
+  "short_name": "hammer",
   "start_url": "index.html",
   "display": "standalone",
   "orientation": "landscape",

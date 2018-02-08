@@ -1,83 +1,54 @@
 import {Physics, Line} from 'phaser'
 
-class AircraftObject {
+class Aircraft {
 
-	constructor(game) {
+	constructor(game, {
+			height = 50, 
+			width = 40, 
+			mass = 100, 
+			damping = 0.95,
+			forceLimit = 100
+		}, type, ...props) {
+		
 		this.game = game
+		this.forceLimit = forceLimit
 
-		const aircraft = game.add.sprite(game.width/2, game.height/2, "breakout", "brick_1_1.png")
-		this.aircraft = aircraft
-		aircraft.height = 50
-		aircraft.width = 40
-		game.physics.p2.enable(aircraft)
-		aircraft.body.setRectangleFromSprite()
-		aircraft.body.mass = 100
-		aircraft.body.damping = 0.96
+		this.aircraft = game.add[type](...props)
+		this.aircraft.height = height
+		this.aircraft.width = width
 
+		game.physics.p2.enable(this.aircraft)
+		this.aircraft.body.setRectangleFromSprite()
+		this.aircraft.body.mass = mass
+		this.aircraft.body.damping = damping
 
-		const hammer = game.add.sprite(game.width/2, game.height/2 + 10, "breakout", "ball_4.png")
-		this.hammer = hammer
-		game.physics.p2.enable(hammer)
-		hammer.body.mass = 50
-		hammer.body.damping = 0.96
-		
-		const constraint = game.physics.p2.createDistanceConstraint(aircraft, hammer, 100)
-		this.constraint = constraint
-
-		const speedLine = new Line(aircraft.x, aircraft.y, aircraft.x, aircraft.y)
-		this.speedLine = speedLine
-
-		const line = new Line(aircraft.x, aircraft.y, hammer.x, hammer.y)
-		this.line = line
-		
-		this.prevForce = {x: 0, y: 0}
+		game.world.add(this.aircraft)
+	}
+	
+	destroy(destroyChildren = true, destroyTexture = false) {
+		this.aircraft.destroy(destroyChildren, destroyTexture)
 	}
 
 	update() {
-		const x = this.prevForce.x * 0.8
-		const y = this.prevForce.y * 0.8
-		this.aircraft.body.applyForce([-x * 50, -y * 50], 0, 0)
-		this.prevForce = {x, y}
-
-		
-			this.aircraft.body.velocity.x *= 0.95
-			this.aircraft.body.velocity.y *= 0.95
-
-		// this.speedLine.setTo(
-		// 	this.aircraft.x,
-		// 	this.aircraft.y,
-		// 	this.aircraft.x + this.aircraft.body.velocity.x,
-		// 	this.aircraft.y + this.aircraft.body.velocity.y
-		// )
-		// this.line.fromSprite(
-		// 	this.aircraft,
-		// 	this.hammer,
-		// 	false
-		// )
-		// const maxSpeed = 50
-		// const x = this.aircraft.body.velocity.x, y = this.aircraft.body.velocity.y
-		// const speed = Math.pow(x*x + y*y, 0.5)
-		// if (speed > maxSpeed) {
-		// 	// const dec = Math.pow(speedSqr, 0.5) - Math.pow(maxSpeedSqr, 0.5)
-		// 	this.aircraft.body.velocity.x = x - x * (speed - maxSpeed) / speed * 0.7
-		// 	this.aircraft.body.velocity.y = y - y * (speed - maxSpeed) / speed * 0.7
-		// }
+		console.log(this.aircraft.body.force.x, this.aircraft.body.force.y)
+		const x = this.aircraft.body.force.x * 0.2
+		const y = this.aircraft.body.force.y * 0.2
+		this.aircraft.body.applyForce([-x, -y], 0, 0)
 	}
 	render() {
-		this.game.debug.geom(this.speedLine);
-		this.game.debug.geom(this.line);
-		this.game.debug.spriteBounds(this.aircraft)
-		this.game.debug.spriteBounds(this.hammer)
-		this.game.debug.spriteInfo(this.aircraft)
+		this.game.debug.body(this.aircraft)
+		this.game.debug.bodyInfo(this.aircraft)
 	}
 
-	mouseForce(x, y) {
-		x = (x + this.prevForce.x) / 2
-		y = (y + this.prevForce.y) / 2
-		console.log("mouse force", parseInt(x), parseInt(y))
-		this.aircraft.body.applyForce([-x * 400, -y * 400], 0, 0)
-		this.prevForce = {x, y}
+	move(point) {
+		const force = Math.pow(point.x*point.x + point.y*point.y, 0.5)
+		if (force > this.forceLimit) {
+			point.x *= forceLimit / force
+			point.y *= forceLimit / force
+		}
+		console.log("move", point.x, point.y,  Math.pow(point.x*point.x + point.y*point.y, 0.5))
+		this.aircraft.body.applyForce([-point.x * 100, -point.y * 100], 0, 0)
 	}
 }
 
-export default AircraftObject;
+export default Aircraft;
