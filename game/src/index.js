@@ -21,4 +21,24 @@ class Game extends Phaser.Game {
 
 }
 
-new Game();
+const game = new Game()
+
+window.onload = () => {
+	// lock pointer
+	const canvas = document.getElementsByTagName("canvas")[0]
+	canvas.addEventListener('click', () => {
+		canvas.requestPointerLock()
+	})
+
+    document.addEventListener('pointerlockchange', function () {
+        if (document.pointerLockElement == canvas) {
+            document.addEventListener("mousemove", handleMouseMove, false);
+        } else {
+            document.removeEventListener("mousemove", handleMouseMove, false);
+        }
+    }, false);
+	
+	const handleMouseMove = (event) => {
+		if (!!game.mouseMove) game.mouseMove(event.movementX, event.movementY)
+	}
+}
