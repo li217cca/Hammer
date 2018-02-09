@@ -6,8 +6,8 @@ class Aircraft {
 			height = 50, 
 			width = 40, 
 			mass = 100, 
-			damping = 0.95,
-			forceLimit = 100
+			damping = 0.5,
+			forceLimit = 20
 		}, type, ...props) {
 		
 		this.game = game
@@ -30,24 +30,24 @@ class Aircraft {
 	}
 
 	update() {
-		console.log(this.aircraft.body.force.x, this.aircraft.body.force.y)
-		const x = this.aircraft.body.force.x * 0.2
-		const y = this.aircraft.body.force.y * 0.2
-		this.aircraft.body.applyForce([-x, -y], 0, 0)
+		// const x = this.aircraft.body.force.x * 0.2
+		// const y = this.aircraft.body.force.y * 0.2
+		// this.aircraft.body.applyForce([-x, -y], 0, 0)
 	}
 	render() {
-		this.game.debug.body(this.aircraft)
-		this.game.debug.bodyInfo(this.aircraft)
+		// this.game.debug.body(this.aircraft)
+		this.game.debug.spriteInfo(this.aircraft)
 	}
 
 	move(point) {
+
 		const force = Math.pow(point.x*point.x + point.y*point.y, 0.5)
 		if (force > this.forceLimit) {
-			point.x *= forceLimit / force
-			point.y *= forceLimit / force
+			point.x *= this.forceLimit / force
+			point.y *= this.forceLimit / force
 		}
-		console.log("move", point.x, point.y,  Math.pow(point.x*point.x + point.y*point.y, 0.5))
-		this.aircraft.body.applyForce([-point.x * 100, -point.y * 100], 0, 0)
+
+		this.aircraft.body.applyImpulse([-point.x * 10, -point.y * 10], 0, 0)
 	}
 }
 

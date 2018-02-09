@@ -4,10 +4,10 @@ import {Physics, Line} from 'phaser'
 class Aircraft {
 
 	constructor(game, {
-			height = 12, 
+			height = 15, 
             width = 6,
-            mass = 0.05,
-            number = 6
+            mass = 0.01,
+            number = 5
 		}, body1, body2, ...props) {
 		
         this.game = game
@@ -28,21 +28,28 @@ class Aircraft {
                 [width/2, 0],
                 chain.body, 
                 [width/2, height],
-                1e200
+                1e10
             )
-            constraint.setStiffness(1e200)
 
             prevBody = chain.body
         }
         const constraint = game.physics.p2.createRevoluteConstraint(prevBody, 
             [width/2, 0],
             body2, 
-            [width/2, height],
-            1e200
+            [0, 0],
+            1e10
         )
-        constraint.setStiffness(1e200)
-        
-        console.log("constraint", constraint)
+
+        // const finalConstraint  = game.physics.p2.createDistanceConstraint(body1, 
+        //     body2,
+        //     height*number + 10,
+        //     [width/2, 0],
+        //     [0, 0],
+        // )
+
+        // window.cc = finalConstraint
+        // finalConstraint.lowerLimitEnabled = true
+        // console.log("finalConstraint", finalConstraint)
 	}
 
 	destroy(destroyChildren = true, destroyTexture = false) {

@@ -150,7 +150,7 @@ function serve() {
 gulp.task('cleanBuild', cleanBuild);
 gulp.task('copyStatic', ['cleanBuild'], copyStatic);
 // gulp.task('copyPhaser', ['copyStatic'], copyPhaser);
-// gulp.task('build', ['copyPhaser'], build);
+gulp.task('build', [], build);
 gulp.task('fastBuild', build);
 gulp.task('serve', ['build'], serve);
 gulp.task('watch-js', ['fastBuild'], browserSync.reload); // Rebuilds and reloads the project when executed.

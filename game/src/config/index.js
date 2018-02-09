@@ -1,5 +1,5 @@
 
 export default {
-    gravity: {x: 0, y: 10},
-    restitution: 0.7
+    gravity: {x: 0, y: 100},
+    restitution: 0.2
 }
