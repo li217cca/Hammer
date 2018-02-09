@@ -17,9 +17,8 @@ class Main extends State {
 
 	preload() {
 		const {game} = this
-
+		game.load.atlas('weapon', 'assets/weapon.png', 'assets/weapon.json')
 		game.load.atlas('breakout', 'assets/breakout.png', 'assets/breakout.json')
-
 
 		const chainGraphics = game.add.graphics(0, 0)
 		chainGraphics.lineStyle(2, 0xAAAAAA, 1) // lineWidth, color, alpha
@@ -39,18 +38,22 @@ class Main extends State {
 		game.physics.p2.restitution = config.restitution
 		game.physics.p2.gravity.y = config.gravity.y
 
-
+		
 		const userAircraft = new Aircraft(game, {}, "sprite", game.width/2, game.height/2, "breakout", "brick_1_1.png")
 		console.log("userAircraft", userAircraft)
 
 		const ballGroup = game.add.physicsGroup(Physics.P2JS)
 
-		const ball = ballGroup.create(game.width / 2, 0, 'breakout', 'ball_1.png')
+		const ball = ballGroup.create(game.width / 2, 0, 'weapon', 'stone.png')
+		ball.width = 25
+		ball.height = 25
+		ball.body.setCircle(25)
 		ball.body.mass = 1
+		ball.body.damping = 0.9
 		window.ball = ball
 
-
-		const chains = new Chains(game, {}, ball.body, userAircraft.aircraft.body, game.width/2, game.height/2, this.graphics.chainGraphics.generateTexture())
+		const chains = new Chains(game, {}, ball.body, userAircraft.aircraft.body, game.width/2, game.height/2, 
+			'weapon', 'chain.png')
 		
 		// const chain = game.add.sprite(game.width/2, game.height/2, this.graphics.chainGraphics.generateTexture())
 		// const ball = game.add.sprite(game.width/2, game.height/2, "breakout", "ball_1.png")

@@ -46,7 +46,8 @@
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {"x":0,"y":0,"w":32,"h":17},
-        "sourceSize": {"w":32,"h":17}
+        "sourceSize": {"w":32,"h":17},
+        "xxx": 123
     },
     {
         "filename": "brick_1_2.png",

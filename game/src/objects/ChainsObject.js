@@ -4,10 +4,10 @@ import {Physics, Line} from 'phaser'
 class Aircraft {
 
 	constructor(game, {
-			height = 15, 
+			height = 12, 
             width = 6,
             mass = 0.01,
-            number = 5
+            number = 6
 		}, body1, body2, ...props) {
 		
         this.game = game

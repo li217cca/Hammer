@@ -6,8 +6,8 @@ class Aircraft {
 			height = 50, 
 			width = 40, 
 			mass = 100, 
-			damping = 0.5,
-			forceLimit = 20
+			damping = 0.9,
+			forceLimit = 25
 		}, type, ...props) {
 		
 		this.game = game
@@ -47,7 +47,7 @@ class Aircraft {
 			point.y *= this.forceLimit / force
 		}
 
-		this.aircraft.body.applyImpulse([-point.x * 10, -point.y * 10], 0, 0)
+		this.aircraft.body.applyImpulse([-point.x * 20, -point.y * 20], 0, 0)
 	}
 }
 
