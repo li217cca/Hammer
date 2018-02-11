@@ -25,16 +25,15 @@ class Aircraft {
             chain.body.data.shapes[0].sensor = true
 
             const constraint = game.physics.p2.createRevoluteConstraint(prevBody, 
-                [width/2, 0],
+                [0, -height/2],
                 chain.body, 
-                [width/2, height],
+                [0, height/2],
                 1e10
             )
-
             prevBody = chain.body
         }
         const constraint = game.physics.p2.createRevoluteConstraint(prevBody, 
-            [width/2, 0],
+            [0, -height/2],
             body2, 
             [0, 0],
             1e10
